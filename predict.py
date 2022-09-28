@@ -12,11 +12,14 @@ from absl import app, flags, logging
 import tensorflow as tf
 import time
 import os
+import requests
 # comment out below line to enable tensorflow outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+API_ENDPOINT = "http://localhost/firefighter/receive.php"
 
 
 def showingResize(img, scale_percent=60):
@@ -83,7 +86,7 @@ class_names = utils.read_class_names(cfg.YOLO.CLASSES)
 
 # by default allow all classes in .names file
 allowed_classes = list(class_names.values())
-image = utils.draw_bbox(
+image, class_name, score = utils.draw_bbox(
     image_ori,
     pred_bbox,
     allowed_classes=allowed_classes
@@ -91,6 +94,22 @@ image = utils.draw_bbox(
 image = Image.fromarray(image.astype(np.uint8))
 image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 cv2.imwrite('detections.png', image)
+
+headers = {
+    "Content-Type": "application/x-www-form-urlencoded"
+}
+values = {
+    "score": score,
+    "class_name": class_name
+}
+
+response = requests.post(API_ENDPOINT, data=values, headers=headers)
+if response.ok:
+    print("Upload completed successfully!")
+    print(f"konten : {response.content}")
+else:
+    print("Something went wrong!")
+
 
 # showingResize(image, 40)
 # cv2.waitKey(0)
