@@ -41,7 +41,7 @@ session = InteractiveSession(config=config)
 STRIDES, ANCHORS, NUM_CLASS, XYSCALE = utils.load_config(
     tiny=False, model='yolov4')
 input_size = 416
-model_path = './checkpoints/firefighter.tflite'
+model_path = './checkpoints/firefighter-float16-size-optimized.tflite'
 
 interpreter = tf.lite.Interpreter(model_path=model_path)
 image_ori = capture()

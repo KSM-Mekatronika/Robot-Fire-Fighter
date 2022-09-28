@@ -148,6 +148,8 @@ def format_boxes(bboxes, image_height, image_width):
 
 
 def draw_bbox(image, bboxes, counted_classes=None, show_label=True, allowed_classes=list(read_class_names(cfg.YOLO.CLASSES).values()), read_plate=False):
+    kelas = ""
+    score = ""
     classes = read_class_names(cfg.YOLO.CLASSES)
     num_classes = len(classes)
     image_h, image_w, _ = image.shape
@@ -178,7 +180,7 @@ def draw_bbox(image, bboxes, counted_classes=None, show_label=True, allowed_clas
             c1, c2 = (coor[0], coor[1]), (coor[2], coor[3])
             cv2.rectangle(image, (int(c1[0]), int(c1[1])), (int(
                 c2[0]), int(c2[1])), bbox_color, bbox_thick)
-
+            kelas = class_name
             print("Object found: {}, Confidence: {:.2f}, BBox Coords (xmin, ymin, xmax, ymax): {}, {}, {}, {} ".format(
                 class_name, score, coor[0], coor[1], coor[2], coor[3]))
 
@@ -199,7 +201,7 @@ def draw_bbox(image, bboxes, counted_classes=None, show_label=True, allowed_clas
                     cv2.putText(image, "{}s detected: {}".format(key, value), (5, offset),
                                 cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0), 2)
                     offset += height_ratio
-    return image
+    return image, kelas, score
 
 
 def bbox_iou(bboxes1, bboxes2):

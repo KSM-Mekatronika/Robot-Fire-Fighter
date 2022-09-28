@@ -1,3 +1,4 @@
+import requests
 from tensorflow.compat.v1 import InteractiveSession
 from tensorflow.compat.v1 import ConfigProto
 from core.functions import *
@@ -14,7 +15,7 @@ import tensorflow as tf
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
+API_ENDPOINT = "http://localhost/firefighter/receive.php"
 
 vid = cv2.VideoCapture(0)
 config = ConfigProto()
@@ -23,7 +24,7 @@ session = InteractiveSession(config=config)
 STRIDES, ANCHORS, NUM_CLASS, XYSCALE = utils.load_config(
     tiny=False, model='yolov4')
 input_size = 416
-model_path = './checkpoints/firefighter.tflite'
+model_path = './checkpoints/firefighter-float16-latency-optimized.tflite'
 interpreter = tf.lite.Interpreter(model_path=model_path)
 
 
@@ -70,11 +71,12 @@ while True:
     class_names = utils.read_class_names(cfg.YOLO.CLASSES)
     allowed_classes = list(class_names.values())
 
-    image = utils.draw_bbox(
+    image, class_name, score = utils.draw_bbox(
         frame,
         pred_bbox,
         allowed_classes=allowed_classes
     )
+    print(f"class : {class_name}")
 
     fps = 1.0 / (time.time() - start_time)
     print("FPS: %.2f" % fps)
@@ -84,6 +86,21 @@ while True:
     result = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
     cv2.imshow("result", result)
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    values = {
+        "score": score,
+        "class_name": class_name
+    }
+
+    response = requests.post(API_ENDPOINT, data=values, headers=headers)
+    if response.ok:
+        print("Upload completed successfully!")
+        print(f"konten : {response.content}")
+    else:
+        print("Something went wrong!")
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
