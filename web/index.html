@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script> 
+    <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setInterval( function(){
+                $("#class").load("load_class.php");
+                $("#score").load("load_score.php");
+            }, 1000);
+    
+        });
+
+    </script>
+    
+</head>
+<body>
+    <div class="container" style="text-align: center; margin-top: 200px;">
+        <h2>Fire Fighter Monitoring</h2> 
+        <div class="card text-center" style="background-color: red;">
+            <h6>KEADAAN</h6>
+        </div>
+        <div class="card-body" style="background-color: yellow;">
+            <h5>
+                <span id="class"></span>
+            </h5>
+        </div>
+        <div class="card text-center" style="background-color: red;">
+            <h6>SCORE</h6>
+        </div>
+        <div class="card-body" style="background-color: yellow;">
+            <h5>
+                <span id="score"></span>
+            </h5>
+        </div>
+    </div>
+  
+</body>
+</html>
