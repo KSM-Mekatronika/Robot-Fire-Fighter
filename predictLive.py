@@ -22,9 +22,9 @@ config = ConfigProto()
 config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 STRIDES, ANCHORS, NUM_CLASS, XYSCALE = utils.load_config(
-    tiny=False, model='yolov4')
+    tiny=True, model='yolov4')
 input_size = 416
-model_path = './checkpoints/firefighter-float16-latency-optimized.tflite'
+model_path = './checkpoints/firefighter_tiny.tflite'
 interpreter = tf.lite.Interpreter(model_path=model_path)
 
 
