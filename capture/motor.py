@@ -12,6 +12,8 @@ GPIO.setup(IN1, GPIO.OUT)
 GPIO.setup(IN2, GPIO.OUT)
 GPIO.setup(IN3, GPIO.OUT)
 GPIO.setup(IN4, GPIO.OUT)
+GPIO.setup(ENA, GPIO.OUT)
+GPIO.setup(ENB, GPIO.OUT)
 
 GPIO.output(IN1, GPIO.LOW)
 GPIO.output(IN2, GPIO.LOW)
