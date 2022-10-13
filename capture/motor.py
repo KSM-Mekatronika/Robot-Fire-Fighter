@@ -26,8 +26,8 @@ PWM1.start(0)
 PWM2.start(0)
 
 while True:
-    PWM1.ChangeDutyCycle(75)
-    PWM2.ChangeDutyCycle(75)
+    PWM1.ChangeDutyCycle(25)
+    PWM2.ChangeDutyCycle(25)
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
