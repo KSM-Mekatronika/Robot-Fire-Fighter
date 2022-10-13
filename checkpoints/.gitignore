@@ -1,3 +1,4 @@
 *.tflite
 ./firefighter
 /firefighter
+/firefighter_tiny
