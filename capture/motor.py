@@ -26,34 +26,34 @@ PWM1.start(0)
 PWM2.start(0)
 
 
-def move_forward(){
-    PWM1.ChangeDutyCycle(25)
-    PWM2.ChangeDutyCycle(25)
+def move_forward():
+    PWM1.ChangeDutyCycle(40)
+    PWM2.ChangeDutyCycle(40)
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-}
 
 
-def move_left(){
-    PWM1.ChangeDutyCycle(10)
-    PWM2.ChangeDutyCycle(50)
+
+def move_left():
+    PWM1.ChangeDutyCycle(30)
+    PWM2.ChangeDutyCycle(60)
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-}
 
 
-def move_right(){
-    PWM1.ChangeDutyCycle(50)
-    PWM2.ChangeDutyCycle(10)
+
+def move_right():
+    PWM1.ChangeDutyCycle(60)
+    PWM2.ChangeDutyCycle(30)
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-}
+
 
 
 while True:
