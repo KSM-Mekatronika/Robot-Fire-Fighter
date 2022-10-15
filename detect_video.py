@@ -110,13 +110,15 @@ def main(_argv):
             iou_threshold=FLAGS.iou,
             score_threshold=FLAGS.score
         )
-        pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(),
-                     valid_detections.numpy()]
+        original_h, original_w, _ = frame.shape
+        bboxes = utils.format_boxes(boxes.numpy()[0], original_h, original_w)
 
+        pred_bbox = [bboxes, scores.numpy()[0], classes.numpy()[0],
+                     valid_detections.numpy()[0]]
         class_names = utils.read_class_names(cfg.YOLO.CLASSES)
         allowed_classes = list(class_names.values())
 
-        image = utils.draw_bbox(
+        image, kelas, score_val = utils.draw_bbox(
             frame, pred_bbox, allowed_classes=allowed_classes)
         fps = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps)
