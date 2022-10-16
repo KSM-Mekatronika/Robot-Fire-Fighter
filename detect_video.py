@@ -118,7 +118,7 @@ def main(_argv):
         class_names = utils.read_class_names(cfg.YOLO.CLASSES)
         allowed_classes = list(class_names.values())
 
-        image, kelas, score_val = utils.draw_bbox(
+        image, kelas, score_val, bbx = utils.draw_bbox(
             frame, pred_bbox, allowed_classes=allowed_classes)
         fps = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps)

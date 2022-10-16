@@ -183,7 +183,7 @@ def draw_bbox(image, bboxes, counted_classes=None, show_label=True, allowed_clas
             kelas = class_name
             print("Object found: {}, Confidence: {:.2f}, BBox Coords (xmin, ymin, xmax, ymax): {}, {}, {}, {} ".format(
                 class_name, score, coor[0], coor[1], coor[2], coor[3]))
-
+            bbx = (coor[0] + coor[2])/2
             if show_label:
                 bbox_mess = '%s: %.2f' % (class_name, score)
                 t_size = cv2.getTextSize(
@@ -201,7 +201,7 @@ def draw_bbox(image, bboxes, counted_classes=None, show_label=True, allowed_clas
                     cv2.putText(image, "{}s detected: {}".format(key, value), (5, offset),
                                 cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0), 2)
                     offset += height_ratio
-    return image, kelas, score
+    return image, kelas, score, bbx
 
 
 def bbox_iou(bboxes1, bboxes2):

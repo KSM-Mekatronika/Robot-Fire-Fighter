@@ -1,4 +1,4 @@
-import requests
+import motor
 from tensorflow.compat.v1 import InteractiveSession
 from tensorflow.compat.v1 import ConfigProto
 from core.functions import *
@@ -71,7 +71,7 @@ while True:
     class_names = utils.read_class_names(cfg.YOLO.CLASSES)
     allowed_classes = list(class_names.values())
 
-    image, class_name, score = utils.draw_bbox(
+    image, class_name, score, bbx = utils.draw_bbox(
         frame,
         pred_bbox,
         allowed_classes=allowed_classes
@@ -87,20 +87,14 @@ while True:
 
     cv2.imshow("result", result)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    values = {
-        "score": score,
-        "class_name": class_name
-    }
+    TOLERANCE = 50
 
-    response = requests.post(API_ENDPOINT, data=values, headers=headers)
-    if response.ok:
-        print("Upload completed successfully!")
-        print(f"konten : {response.content}")
-    else:
-        print("Something went wrong!")
+    if (bbx < original_w/2):
+        motor.move_left()
+    elif (bbx > original_w/2):
+        motor.move_right()
+    elif ((bbx > original_w/2 - TOLERANCE) and (bbx < original_w/2 + TOLERANCE)):
+        motor.move_stop()
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
